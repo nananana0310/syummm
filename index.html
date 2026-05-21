@@ -1,0 +1,659 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Happy Birthday Nazwa 💖</title>
+
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Sacramento&display=swap" rel="stylesheet">
+
+<!-- Confetti -->
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+<style>
+
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
+
+body{
+  font-family:'Poppins',sans-serif;
+  overflow-x:hidden;
+  min-height:100vh;
+  background:linear-gradient(to bottom,#060816,#10182f);
+  color:white;
+  position:relative;
+}
+
+/* ===== BACKGROUND ===== */
+
+.stars{
+  position:fixed;
+  width:100%;
+  height:100%;
+  overflow:hidden;
+  z-index:-3;
+}
+
+.star{
+  position:absolute;
+  width:2px;
+  height:2px;
+  background:white;
+  border-radius:50%;
+  animation:blink 2s infinite alternate;
+}
+
+@keyframes blink{
+  from{opacity:0.2;}
+  to{opacity:1;}
+}
+
+/* Shooting Stars */
+.shooting-star{
+  position:absolute;
+  top:-100px;
+  width:2px;
+  height:100px;
+  background:linear-gradient(white,transparent);
+  opacity:0.8;
+  transform:rotate(45deg);
+  animation:shoot 5s linear infinite;
+}
+
+.shooting-star:nth-child(1){
+  left:10%;
+  animation-delay:0s;
+}
+
+.shooting-star:nth-child(2){
+  left:40%;
+  animation-delay:2s;
+}
+
+.shooting-star:nth-child(3){
+  left:70%;
+  animation-delay:4s;
+}
+
+@keyframes shoot{
+  0%{
+    transform:translateY(0) translateX(0) rotate(45deg);
+    opacity:1;
+  }
+  100%{
+    transform:translateY(1000px) translateX(400px) rotate(45deg);
+    opacity:0;
+  }
+}
+
+/* Glow */
+.glow1,.glow2{
+  position:fixed;
+  width:500px;
+  height:500px;
+  border-radius:50%;
+  filter:blur(120px);
+  z-index:-2;
+}
+
+.glow1{
+  background:#ff9ecf55;
+  top:-150px;
+  left:-100px;
+}
+
+.glow2{
+  background:#8fd3ff55;
+  bottom:-150px;
+  right:-100px;
+}
+
+/* ===== OPENING SCREEN ===== */
+
+.opening{
+  position:fixed;
+  inset:0;
+  background:#060816;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  flex-direction:column;
+  z-index:9999;
+  transition:1s;
+}
+
+.opening h1{
+  font-family:'Sacramento',cursive;
+  font-size:4rem;
+  color:#ffb6d9;
+}
+
+.opening p{
+  margin-top:10px;
+  color:#ddd;
+}
+
+.enter-btn{
+  margin-top:25px;
+  padding:14px 30px;
+  border:none;
+  border-radius:50px;
+  background:linear-gradient(135deg,#ff9ecf,#8fd3ff);
+  color:white;
+  font-size:1rem;
+  cursor:pointer;
+  transition:0.3s;
+}
+
+.enter-btn:hover{
+  transform:scale(1.08);
+}
+
+/* ===== MAIN ===== */
+
+.container{
+  width:90%;
+  max-width:450px;
+  margin:auto;
+  padding:100px 20px 120px;
+  text-align:center;
+}
+
+.card{
+  background:rgba(255,255,255,0.08);
+  border:1px solid rgba(255,255,255,0.15);
+  backdrop-filter:blur(18px);
+  border-radius:35px;
+  padding:35px 25px;
+  box-shadow:0 0 30px rgba(255,255,255,0.08);
+  animation:fadeUp 1.5s ease;
+}
+
+@keyframes fadeUp{
+  from{
+    opacity:0;
+    transform:translateY(30px);
+  }
+  to{
+    opacity:1;
+    transform:translateY(0);
+  }
+}
+
+/* ===== PHOTO ===== */
+
+.photo-frame{
+  width:180px;
+  height:180px;
+  margin:auto;
+  position:relative;
+  transform:rotate(-45deg);
+  background:linear-gradient(135deg,#ff9ecf,#8fd3ff);
+  overflow:hidden;
+  border-radius:25px;
+  box-shadow:0 0 25px #ffb6d988;
+}
+
+.photo-frame::before,
+.photo-frame::after{
+  content:'';
+  position:absolute;
+  width:180px;
+  height:180px;
+  background:inherit;
+  border-radius:50%;
+}
+
+.photo-frame::before{
+  top:-90px;
+  left:0;
+}
+
+.photo-frame::after{
+  top:0;
+  left:90px;
+}
+
+.photo-frame img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  position:relative;
+  z-index:2;
+  transform:rotate(45deg) scale(1.1);
+}
+
+/* ===== TEXT ===== */
+
+.title{
+  margin-top:45px;
+  font-size:3rem;
+  font-family:'Sacramento',cursive;
+  background:linear-gradient(to right,#ffb6d9,#8fd3ff);
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+}
+
+.typing{
+  margin-top:20px;
+  line-height:1.9;
+  font-size:0.97rem;
+  color:#f4f4f4;
+  min-height:220px;
+}
+
+/* ===== COUNTDOWN ===== */
+
+.countdown{
+  margin-top:25px;
+  display:flex;
+  justify-content:center;
+  gap:15px;
+  flex-wrap:wrap;
+}
+
+.box{
+  width:75px;
+  padding:15px 10px;
+  border-radius:18px;
+  background:rgba(255,255,255,0.08);
+  backdrop-filter:blur(10px);
+}
+
+.box h2{
+  font-size:1.5rem;
+  color:#ffb6d9;
+}
+
+.box p{
+  font-size:0.8rem;
+}
+
+/* ===== FLOAT BUTTON ===== */
+
+.float-btn{
+  position:fixed;
+  right:25px;
+  bottom:25px;
+  width:65px;
+  height:65px;
+  border:none;
+  border-radius:50%;
+  background:linear-gradient(135deg,#ff9ecf,#8fd3ff);
+  color:white;
+  font-size:28px;
+  cursor:pointer;
+  z-index:100;
+  box-shadow:0 0 25px #ffb6d988;
+}
+
+.popup{
+  position:fixed;
+  top:50%;
+  left:50%;
+  transform:translate(-50%,-50%) scale(0);
+  background:rgba(255,255,255,0.12);
+  backdrop-filter:blur(20px);
+  padding:25px 35px;
+  border-radius:25px;
+  transition:0.4s;
+  z-index:999;
+}
+
+.popup.show{
+  transform:translate(-50%,-50%) scale(1);
+}
+
+/* ===== LOVE FLOAT ===== */
+
+.heart{
+  position:fixed;
+  bottom:-20px;
+  font-size:20px;
+  animation:floatHeart 6s linear forwards;
+  z-index:2;
+}
+
+@keyframes floatHeart{
+  0%{
+    transform:translateY(0) scale(1);
+    opacity:1;
+  }
+  100%{
+    transform:translateY(-110vh) scale(1.8);
+    opacity:0;
+  }
+}
+
+/* ===== LETTER ===== */
+
+.letter-btn{
+  margin-top:25px;
+  padding:12px 24px;
+  border:none;
+  border-radius:30px;
+  background:linear-gradient(135deg,#ff9ecf,#8fd3ff);
+  color:white;
+  cursor:pointer;
+}
+
+.letter{
+  margin-top:20px;
+  display:none;
+  line-height:1.8;
+  background:rgba(255,255,255,0.07);
+  padding:20px;
+  border-radius:20px;
+}
+
+/* ===== RESPONSIVE ===== */
+
+@media(max-width:500px){
+
+  .title{
+    font-size:2.5rem;
+  }
+
+  .typing{
+    font-size:0.9rem;
+  }
+
+  .photo-frame{
+    width:150px;
+    height:150px;
+  }
+
+  .photo-frame::before,
+  .photo-frame::after{
+    width:150px;
+    height:150px;
+  }
+
+  .photo-frame::before{
+    top:-75px;
+  }
+
+  .photo-frame::after{
+    left:75px;
+  }
+
+}
+
+</style>
+</head>
+<body>
+
+<!-- AUDIO -->
+<audio id="bgMusic" loop>
+  <source src="https://files.catbox.moe/voqvpm.mp3" type="audio/mp3">
+</audio>
+
+<!-- OPENING -->
+<div class="opening" id="opening">
+  <h1>Hi Nazwa 💖</h1>
+  <p>Aku punya sesuatu buat kamu...</p>
+  <button class="enter-btn" onclick="startWebsite()">Buka Sekarang ✨</button>
+</div>
+
+<!-- BACKGROUND -->
+<div class="stars" id="stars"></div>
+
+<div class="shooting-star"></div>
+<div class="shooting-star"></div>
+<div class="shooting-star"></div>
+
+<div class="glow1"></div>
+<div class="glow2"></div>
+
+<!-- MAIN -->
+<div class="container">
+
+  <div class="card">
+
+    <!-- FOTO -->
+    <div class="photo-frame">
+      <!-- GANTI LINK FOTO -->
+      <img src="https://files.catbox.moe/bgfpja.jpg">
+    </div>
+
+    <h1 class="title">Happy Birthday Nazwa 💕</h1>
+
+    <!-- TYPING TEXT -->
+    <p class="typing" id="typing"></p>
+
+    <!-- COUNTDOWN -->
+    <div class="countdown">
+
+      <div class="box">
+        <h2 id="days">00</h2>
+        <p>Hari</p>
+      </div>
+
+      <div class="box">
+        <h2 id="hours">00</h2>
+        <p>Jam</p>
+      </div>
+
+      <div class="box">
+        <h2 id="minutes">00</h2>
+        <p>Menit</p>
+      </div>
+
+      <div class="box">
+        <h2 id="seconds">00</h2>
+        <p>Detik</p>
+      </div>
+
+    </div>
+
+    <!-- LETTER -->
+    <button class="letter-btn" onclick="toggleLetter()">
+      💌 Buka Surat Cinta
+    </button>
+
+    <div class="letter" id="letter">
+
+  <h2>Untuk Nazwa 💖</h2>
+
+  <p>
+    happy birthdayyy sayanggg 🎂💫<br><br>
+
+    ciee makin tua aja nihh, tapi tenangg kokk… tua nya lucu 😭🤏🏻 
+    semoga di umur sekarang kamu makin bahagiaa, makin disayang banyak orang, makin kuat jalanin semuanya, dan semoga semua hal baik selalu nyamperin kamu satu satu yaa.<br><br>
+
+    makasih jugaa udah hadir dan jadi manusia favorit aku sampai sekarang. 
+    kadang kamu nyebelin, suka bikin aku overthinking, suka ngilang pas bobok 😠 tapi anehnya aku tetep nyaman banget sama kamu. mungkin emang kamu rumah yang dikirim Tuhan buat aku hehe.<br><br>
+
+    aku harap tahun ini banyak senyum yang datang ke hidup kamu, bukan cuma “gapapa” padahal cape sendiri. 
+    kalo nanti capek, cerita yaa, jangan dipendem sendirian. 
+    aku pengen jadi orang yang bisa nemenin kamu bukan cuma pas happy, tapi pas dunia lagi ga ramah juga.<br><br>
+
+    dan satu lagi… semoga kamu jangan berubah jadi asing yaa ☹️ 
+    soalnya aku udah terlalu nyaman sama manusia se-imut kamu ini.<br><br>
+
+    selamat ulang tahun nazwa kaira wilda  💙<br>
+    jangan lupa traktir orang terganteng dan terpaling perhatian ini yaa 😋🎁
+  </p>
+
+    </div>
+
+  </div>
+
+</div>
+
+<!-- FLOAT BUTTON -->
+<button class="float-btn" onclick="showPopup()">💖</button>
+
+<!-- POPUP -->
+<div class="popup" id="popup">
+  <h2>Cie dipencet 😭</h2>
+  <p>Kangen ya sama akuu? 🤭</p>
+</div>
+
+<script>
+
+/* ===== START WEBSITE ===== */
+
+function startWebsite(){
+
+  document.getElementById('opening').style.opacity='0';
+
+  setTimeout(()=>{
+    document.getElementById('opening').style.display='none';
+  },1000);
+
+  document.getElementById('bgMusic').play();
+
+  launchConfetti();
+
+}
+
+/* ===== CONFETTI ===== */
+
+function launchConfetti(){
+
+  confetti({
+    particleCount:200,
+    spread:120,
+    origin:{y:0.6}
+  });
+
+}
+
+/* ===== TYPING EFFECT ===== */
+
+const text = `
+Selamat ulang tahun untuk perempuan paling cantik di semesta ini 💖
+
+Semoga semua hal baik selalu datang ke hidup kamu,
+senyum kamu ga pernah hilang,
+dan hari-hari kamu selalu dipenuhi bahagia ✨
+
+Makasih yaa udah hadir dan bikin dunia terasa lebih indah.
+Kamu itu kayak langit malam,
+cantik, tenang, dan selalu bikin nyaman 🤍
+`;
+
+let index = 0;
+
+function typingEffect(){
+
+  if(index < text.length){
+
+    document.getElementById("typing").innerHTML += text.charAt(index);
+
+    index++;
+
+    setTimeout(typingEffect,40);
+
+  }
+
+}
+
+typingEffect();
+
+/* ===== COUNTDOWN ===== */
+
+const birthday = new Date("May 23, 2026 00:00:00").getTime();
+
+setInterval(()=>{
+
+  const now = new Date().getTime();
+
+  const distance = birthday - now;
+
+  const days = Math.floor(distance / (1000*60*60*24));
+  const hours = Math.floor((distance % (1000*60*60*24)) / (1000*60*60));
+  const minutes = Math.floor((distance % (1000*60*60)) / (1000*60));
+  const seconds = Math.floor((distance % (1000*60)) / 1000);
+
+  document.getElementById("days").innerHTML = days;
+  document.getElementById("hours").innerHTML = hours;
+  document.getElementById("minutes").innerHTML = minutes;
+  document.getElementById("seconds").innerHTML = seconds;
+
+},1000);
+
+/* ===== POPUP ===== */
+
+function showPopup(){
+
+  const popup = document.getElementById('popup');
+
+  popup.classList.add('show');
+
+  setTimeout(()=>{
+    popup.classList.remove('show');
+  },2500);
+
+  confetti({
+    particleCount:80,
+    spread:80,
+    origin:{y:0.7}
+  });
+
+}
+
+/* ===== LETTER ===== */
+
+function toggleLetter(){
+
+  const letter = document.getElementById('letter');
+
+  if(letter.style.display === 'block'){
+    letter.style.display = 'none';
+  }else{
+    letter.style.display = 'block';
+  }
+
+}
+
+/* ===== FLOATING HEARTS ===== */
+
+setInterval(()=>{
+
+  const heart = document.createElement('div');
+
+  heart.classList.add('heart');
+
+  heart.innerHTML = '💖';
+
+  heart.style.left = Math.random() * 100 + 'vw';
+
+  heart.style.fontSize = (Math.random()*20 + 15) + 'px';
+
+  document.body.appendChild(heart);
+
+  setTimeout(()=>{
+    heart.remove();
+  },6000);
+
+},700);
+
+/* ===== STARS ===== */
+
+const stars = document.getElementById('stars');
+
+for(let i=0;i<120;i++){
+
+  let star = document.createElement('div');
+
+  star.classList.add('star');
+
+  star.style.top = Math.random()*100 + '%';
+  star.style.left = Math.random()*100 + '%';
+
+  star.style.animationDuration = (Math.random()*3+1)+'s';
+
+  stars.appendChild(star);
+
+}
+
+</script>
+
+</body>
+  </html>
